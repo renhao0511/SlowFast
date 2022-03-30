@@ -1,0 +1,84 @@
+TRAIN:
+  ENABLE: True
+  DATASET: kinetics
+  BATCH_SIZE: 64
+  EVAL_PERIOD: 10
+  CHECKPOINT_PERIOD: 1
+  AUTO_RESUME: True
+DATA:
+  NUM_FRAMES: 32
+  SAMPLING_RATE: 2
+  TRAIN_JITTER_SCALES: [256, 320]
+  TRAIN_CROP_SIZE: 224
+  TEST_CROP_SIZE: 256
+  INPUT_CHANNEL_NUM: [3, 3]
+  PATH_LABEL_SEPARATOR: ","
+  # DECODING_BACKEND: torchvision
+SLOWFAST:
+  ALPHA: 4
+  BETA_INV: 8
+  FUSION_CONV_CHANNEL_RATIO: 2
+  FUSION_KERNEL_SZ: 7
+RESNET:
+  ZERO_INIT_FINAL_BN: True
+  WIDTH_PER_GROUP: 64
+  NUM_GROUPS: 1
+  DEPTH: 50
+  TRANS_FUNC: bottleneck_transform
+  STRIDE_1X1: False
+  NUM_BLOCK_TEMP_KERNEL: [[3, 3], [4, 4], [6, 6], [3, 3]]
+  SPATIAL_STRIDES: [[1, 1], [2, 2], [2, 2], [2, 2]]
+  SPATIAL_DILATIONS: [[1, 1], [1, 1], [1, 1], [1, 1]]
+NONLOCAL:
+  LOCATION: [[[], []], [[], []], [[], []], [[], []]]
+  GROUP: [[1, 1], [1, 1], [1, 1], [1, 1]]
+  INSTANTIATION: dot_product
+BN:
+  USE_PRECISE_STATS: True
+  NUM_BATCHES_PRECISE: 200
+SOLVER:
+  BASE_LR: 0.1
+  LR_POLICY: cosine
+  MAX_EPOCH: 196
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 1e-4
+  WARMUP_EPOCHS: 34.0
+  WARMUP_START_LR: 0.01
+  OPTIMIZING_METHOD: sgd
+MODEL:
+  NUM_CLASSES: 400
+  ARCH: slowfast
+  MODEL_NAME: SlowFast
+  LOSS_FUNC: cross_entropy
+  DROPOUT_RATE: 0.5
+TEST:
+  ENABLE: True
+  DATASET: kinetics
+  BATCH_SIZE: 4
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+DEMO:
+  ENABLE: True
+  LABEL_FILE_PATH: '/home/haoren/repo/slowfast/solution/raw/chinapost_classes.json'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test/pos/冀-廊坊-百世-分拨-市区主线_20210829205340-20210829205410_1.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test_pos.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test/pos/鄂-武汉-申通-武汉全景区-1_0100050021_20220112180348_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_testreal_pos.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test/neg/冀-廊坊-百世-分拨-安检机1_20210830035700-20210830035725_1.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test_neg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/val/pos/琼-海口-圆通-装卸区2_0118009034_20220120224956_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_val_pos.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/val/neg/京南转运中心-进港1层发件区分拣组安检机_0118042966_20220111121938_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_val_neg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train/pos/冀-廊坊-百世-分拨-市区主线_20210828092010-20210828092028_1.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train_pos.mp4'
+  INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train/neg/冀-廊坊-百世-分拨-安检机1_20210828202555-20210828202619_1.mp4'
+  OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train_neg.mp4'
+  # THREAD_ENABLE: True
+  # NUM_VIS_INSTANCES: 2
+  # NUM_CLIPS_SKIP: 20
+NUM_GPUS: 8
+NUM_SHARDS: 1
+RNG_SEED: 0
+OUTPUT_DIR: ./checkpoints/raw_time_clip/

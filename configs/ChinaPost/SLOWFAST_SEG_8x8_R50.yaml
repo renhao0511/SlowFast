@@ -1,0 +1,166 @@
+TRAIN:
+  ENABLE: True
+  DATASET: Chinapostseg
+  BATCH_SIZE: 64
+  EVAL_PERIOD: 100000
+  CHECKPOINT_PERIOD: 100
+  AUTO_RESUME: True
+DATA:
+  NUM_FRAMES: 32
+  SAMPLING_RATE: 1
+  TRAIN_JITTER_SCALES: [256, 320]
+  TRAIN_CROP_SIZE: 224 # 384
+  TEST_CROP_SIZE: 224
+  INPUT_CHANNEL_NUM: [3, 3]
+  PATH_LABEL_SEPARATOR: ","
+  # DECODING_BACKEND: torchvision
+SLOWFAST:
+  ALPHA: 4
+  BETA_INV: 4
+  FUSION_CONV_CHANNEL_RATIO: 2
+  FUSION_KERNEL_SZ: 7
+RESNET:
+  ZERO_INIT_FINAL_BN: True
+  WIDTH_PER_GROUP: 64
+  NUM_GROUPS: 1
+  DEPTH: 50
+  TRANS_FUNC: bottleneck_transform
+  STRIDE_1X1: False
+  NUM_BLOCK_TEMP_KERNEL: [[3, 3], [4, 4], [6, 6], [3, 3]]
+  SPATIAL_STRIDES: [[2, 2], [1, 1], [1, 1], [1, 1]]
+  SPATIAL_DILATIONS: [[1, 1], [1, 1], [1, 1], [1, 1]]
+NONLOCAL:
+  LOCATION: [[[], []], [[], []], [[], []], [[], []]]
+  GROUP: [[1, 1], [1, 1], [1, 1], [1, 1]]
+  INSTANTIATION: dot_product
+BN:
+  USE_PRECISE_STATS: True
+  NUM_BATCHES_PRECISE: 200
+SOLVER:
+  BASE_LR: 0.0001
+  LR_POLICY: cosine
+  MAX_EPOCH: 30000
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 1e-4
+  WARMUP_EPOCHS: 34.0
+  WARMUP_START_LR: 0.00001
+  OPTIMIZING_METHOD: adam
+MODEL:
+  NUM_CLASSES: 2
+  ARCH: slowfast
+  MODEL_NAME: SlowFastSeg
+  LOSS_FUNC: BalanceCELoss
+  DROPOUT_RATE: 0.5
+TEST:
+  ENABLE: True
+  DATASET: Chinapostseg
+  BATCH_SIZE: 4
+  NUM_ENSEMBLE_VIEWS: 1
+  NUM_SPATIAL_CROPS: 1
+DATA_LOADER:
+  NUM_WORKERS: 8
+  PIN_MEMORY: True
+DEMO:
+  ENABLE: True
+  LABEL_FILE_PATH: '/home/haoren/repo/slowfast/solution/raw/chinapost_classes.json'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/solution/raw/clip_video/res_video/equal_clip/琼-海口-圆通-装卸区2_0118009034_20220120224956_0/clip_128_159.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video_clip/clip_128_159.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_acc/trainset_split/琼-海口-圆通-装卸区2_0118009034_20220120224956_0/琼-海口-圆通-装卸区2_0118009034_20220120224956_0clip_32_63.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video_clip/res_琼-海口-圆通-装卸区2_0118009034_20220120224956_0clip_32_63.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/solution/raw/clip_video/res_video/equal_clip/琼-海口-圆通-装卸区2_0118009034_20220120224956_0/clip_448_479.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video_clip/clip_448_479.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/solution/raw/clip_video/res_video/equal_clip/冀-秦皇岛-中通-秦皇岛33510-出港大件卸货口_0118043631_20220124160105_0/clip_160_191.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video_clip/clip_160_191.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/solution/raw/clip_video/res_video/equal_clip/冀-秦皇岛-中通-秦皇岛33510-出港大件卸货口_0118043631_20220124160105_0/clip_32_63.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video_clip/clip_32_63.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/solution/raw/clip_video/res_video/equal_clip/351W-晋-太原-顺丰转运-全景-F区08_0900000011_20220111171339_0/clip_96_127.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video_clip/clip_96_127.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/solution/raw/clip_video/res_video/equal_clip/351W-晋-太原-顺丰转运-全景-F区08_0900000011_20220111171339_0/clip_128_159.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video_clip/clip_128_159.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/solution/raw/clip_video/res_video/equal_clip/贵_贵阳_京东_三线左面发货2_0115181003_20220111162621_0/clip_288_319.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video_clip/clip_288_319.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/solution/raw/clip_video/res_video/equal_clip/贵_贵阳_京东_三线左面发货2_0115181003_20220111162621_0/clip_352_383.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video_clip/clip_352_383.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test/pos/冀-廊坊-百世-分拨-市区主线_20210829205340-20210829205410_1.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test_pos.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train/pos/琼-海口-圆通-装卸区2_0118009034_20220120224840_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg/351W-晋-太原-顺丰转运-全景-F区08_0900000011_20220111171339_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train1_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg/贵_贵阳_京东_三线左面发货2_0115181003_20220111162621_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train2_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg/冀-秦皇岛-中通-秦皇岛33510-出港大件卸货口_0118043631_20220124160105_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train3_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg/暴力分拣 贵_贵阳_京东_遵义发货_0115181022_20220111152203_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train4_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg/暴力分拣 贵_贵阳_京东_遵义发货1_0115181022_20220111152056_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train5_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg/山东省-泰安市-邮政-装卸区-12暴力_0901011012_20220111170824_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train6_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg2/（双人扔抛大件）琼-海口-极兔-建包区3-IDF2-092_0118005871_20220208215957_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train7_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg2/暴力分拣（踩踏扔抛）琼-海口-极兔-建包区3-IDF2-092_0118005871_20220208201246_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train8_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg2/晋-太原-申通-分拣区-4_0100053011_20220126113634_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train9_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg2/晋-太原-韵达转运-分拣5_0100060016_20220126130658_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train10_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg2/亳州 Camera 01_0602870997_20220126143001_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train11_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg/琼-海口-圆通-装卸区2_0118009034_20220120224956_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train12_seg.mp4'
+  INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg2/（双人扔抛大件）琼-海口-极兔-建包区3-IDF2-092_0118005871_20220208215957_0.mp4'
+  OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train13_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg/鄂-武汉-申通-武汉分拣区-6_0100050020_20220112180109_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/val/pos/琼-海口-圆通-装卸区2_0118009034_20220120224956_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_val_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train_seg/琼-海口-圆通-装卸区2_0118009034_20220120225128_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_val2_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train/pos/鄂-武汉-申通-武汉转运安检区1-1_0100050003_20220121154821_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train/pos/鄂-武汉-申通-武汉分拣区-6_0100050020_20220112180109_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test2_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/晋-临汾-SF-大件分拣-2_0000022002_20220124163741_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test3_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/晋-运城-申通转运-全景区-01_0800051015_20220128142105_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test4_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/1线看遵义线_0115185018_20220111161933_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test5_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/851W-黔-贵阳-SF-NC2分拣区直线全景_0810111944_20220111154107_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test6_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/鄂-武汉-申通-武汉全景区-1_0100050021_20220112180348_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test7_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/冀-廊坊-百世-分拨-北京短驳_20210829200238-20210829200259_1.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test8_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/冀-廊坊-百世-分拨-胜芳镇_20210830022924-20210830023000_1.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test9_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/冀-石家庄-韵达-石家庄-C3-021备装安检_0100060013_20220111205910_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test10_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/晋-太原-申通-安检区-1_0100053002_20220120223110_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test11_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test_seg2/山东省-泰安市-邮政-全景区-9_0901014009_20220111165443_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test12_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train/neg/鄂-武汉-申通-武汉转运安检区1-1 铅帘打开_0100050003_20220114101633_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_neg_seg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test/pos/鄂-武汉-申通-武汉全景区-1_0100050021_20220112180348_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_testreal_pos.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/test/neg/冀-廊坊-百世-分拨-安检机1_20210830035700-20210830035725_1.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_test_neg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/val/pos/琼-海口-圆通-装卸区2_0118009034_20220120224956_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_val_pos.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/val/neg/京南转运中心-进港1层发件区分拣组安检机_0118042966_20220111121938_0.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_val_neg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train/pos/冀-廊坊-百世-分拨-市区主线_20210828092010-20210828092028_1.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train_pos.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/slowfast/data/raw/train/neg/冀-廊坊-百世-分拨-安检机1_20210828202555-20210828202619_1.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/slowfast/solution/raw/demo_video/demo_train_neg.mp4'
+  # INPUT_VIDEO: '/home/haoren/repo/torchserver-slowfast/demo/torchserve/test.mp4'
+  # OUTPUT_FILE: '/home/haoren/repo/torchserver-slowfast/demo/torchserve/test_res.mp4'
+  # THREAD_ENABLE: True
+  # NUM_VIS_INSTANCES: 2
+  # NUM_CLIPS_SKIP: 20
+NUM_GPUS: 8
+NUM_SHARDS: 1
+RNG_SEED: 0
+OUTPUT_DIR: ./checkpoints/slowfast_seg_class2/
