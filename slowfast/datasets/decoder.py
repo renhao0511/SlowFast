@@ -264,7 +264,10 @@ def pyav_decode(
     # videos does not support fetching the decoding information, for that case
     # it will get None duration.
     fps = float(container.streams.video[0].average_rate)
-    frames_length = container.streams.video[0].frames
+    # frames_length = container.streams.video[0].frames
+    frames_length = 0
+    for frame_tmp in container.decode():
+        frames_length += 1
     duration = container.streams.video[0].duration
 
     if duration is None:
@@ -281,6 +284,7 @@ def pyav_decode(
             num_clips,
             use_offset=use_offset,
         )
+        assert frames_length > 0, 'frames_length is {}'.format(frames_length)
         timebase = duration / frames_length
         video_start_pts = int(start_idx * timebase)
         video_end_pts = int(end_idx * timebase)

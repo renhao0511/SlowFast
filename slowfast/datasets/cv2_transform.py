@@ -93,10 +93,17 @@ def scale(size, image):
         return image
     new_width = size
     new_height = size
-    if width < height:
-        new_height = int(math.floor((float(height) / width) * size))
+    # if width < height:
+    #     new_height = int(math.floor((float(height) / width) * size))
+    # else:
+    #     new_width = int(math.floor((float(width) / height) * size))
+    min_hw = min(height, width)
+    resize_ratio = size / min_hw
+    downsample_rate = 8
+    if height < width:
+        new_height, new_width = size, int((width * resize_ratio + downsample_rate - 1) // downsample_rate * downsample_rate) 
     else:
-        new_width = int(math.floor((float(width) / height) * size))
+        new_height, new_width = int((height * resize_ratio + downsample_rate - 1) // downsample_rate * downsample_rate), size
     img = cv2.resize(
         image, (new_width, new_height), interpolation=cv2.INTER_LINEAR
     )
